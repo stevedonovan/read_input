@@ -14,6 +14,12 @@ struct Point {
     y: i32,
 }
 
+impl Point {
+    fn distance_from_origin(self) -> f64 {
+        ((self.x.pow(2) + self.y.pow(2)) as f64).sqrt()
+    }
+}
+
 enum ParsePointError {
     FailedParse(String),
     Not2Dimensional(usize),
@@ -53,11 +59,10 @@ impl FromStr for Point {
 }
 
 fn main() {
-    println!(
-        "You inputted\n{:#?}",
-        input_new::<Point>()
-            .repeat_msg("Please input a point in 2D space in the format (x, y): ")
-            .err_match(|e| Some(match e {
+    let point_input = input_new::<Point>()
+        .repeat_msg("Please input a point in 2D space in the format (x, y): ")
+        .err_match(|e| {
+            Some(match e {
                 ParsePointError::FailedParse(s) => format!(
                     "Failed to parse \"{}\" it is not a number that can be parsed.",
                     s
@@ -66,7 +71,12 @@ fn main() {
                     format!("What you inputted was {} dimensional.", num)
                 }
                 ParsePointError::NonNumeric => "That contains a invalid character.".to_string(),
-            }))
-            .get()
+            })
+        })
+        .get();
+    println!("You inputted\n{:#?}", point_input);
+    println!(
+        "That is {} units from the origin",
+        point_input.distance_from_origin()
     );
 }
