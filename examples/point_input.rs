@@ -3,6 +3,7 @@
 //This program adapted from the `std::str::FromStr` trait documentation example.
 //The program was written to show the use of the `err_match()` method in `read_input`
 
+extern crate dont_disappear;
 extern crate read_input;
 
 use read_input::*;
@@ -79,4 +80,5 @@ fn main() {
         "That is {} units from the origin",
         point_input.distance_from_origin()
     );
+    dont_disappear::enter_to_continue::default();
 }
